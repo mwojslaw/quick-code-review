@@ -25,6 +25,6 @@ export const createBlockHandler: ActionHandler<
 
   return {
     ...blocks,
-    [block.id]: block,
+    [id]: block,
   };
 };

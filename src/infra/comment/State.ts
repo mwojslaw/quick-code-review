@@ -15,9 +15,7 @@ const handlersPerActionType = {
   SUBMIT_COMMENT: submitCommentHandler,
 };
 
-const initialState = {};
-
 export const commentsReducer = createReducerSlice<
   CommentActions,
   CommentsState
->(handlersPerActionType, initialState);
+>(handlersPerActionType, (rootState) => rootState.entries.comments || {});

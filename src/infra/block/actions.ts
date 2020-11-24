@@ -1,9 +1,11 @@
 import { CreateBlockPayload } from "@qcr/domain/Block";
 import { UpdateBlockContentPayload } from "@qcr/domain/Block";
 
+type CreateBlockActionPayload = Omit<CreateBlockPayload, "sessionId">;
+
 export type CreateBlockAction = {
   type: "CREATE_BLOCK";
-  payload: CreateBlockPayload;
+  payload: CreateBlockActionPayload;
 };
 
 export type UpdateBlockContentAction = {
@@ -12,3 +14,10 @@ export type UpdateBlockContentAction = {
 };
 
 export type BlockActions = CreateBlockAction | UpdateBlockContentAction;
+
+export const createBlockAction = (
+  payload: CreateBlockActionPayload
+): CreateBlockAction => ({
+  type: "CREATE_BLOCK",
+  payload,
+});

@@ -13,9 +13,7 @@ const handlersPerActionType = {
   UPDATE_BLOCK_CONTENT: updateBlockContentHandler,
 };
 
-const initialState = {};
-
 export const blocksReducer = createReducerSlice<BlockActions, BlocksState>(
   handlersPerActionType,
-  initialState
+  (rootState) => rootState.entries.blocks || {}
 );

@@ -9,9 +9,7 @@ const handlerPerActionType = {
   CREATE_SESSION: createSessionHandler,
 };
 
-const initialState = null;
-
 export const sessionReducer = createReducerSlice<SessionActions, SessionState>(
   handlerPerActionType,
-  initialState
+  (rootState) => rootState.session || null
 );

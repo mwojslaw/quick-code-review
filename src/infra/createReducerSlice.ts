@@ -9,11 +9,11 @@ export const createReducerSlice = <Actions extends Action, State>(
     Actions["type"],
     (rootState: RootState) => (action: Actions) => State
   >,
-  initialState: State
+  getDefaultState: (rootState: RootState) => State
 ) => (rootState: RootState, action: Actions): State => {
   const actionHandlerFactory = actonHandlersPerActionType[action.type];
 
-  if (!actionHandlerFactory) return initialState;
+  if (!actionHandlerFactory) return getDefaultState(rootState);
 
   const actionHandler = actionHandlerFactory(rootState);
 
