@@ -2,12 +2,16 @@ import { updateCommentAction } from "@qcr/infra/comment/actions";
 import { updateCommentHandler } from "@qcr/infra/comment/handlers";
 import { createComment, updateComment } from "@qcr/domain/Comment";
 import { generate } from "@qcr/domain/Identity";
+import { rootReducer } from "@qcr/infra/rootState";
+import { createSessionAction } from "@qcr/infra/session/actions";
+
+const initialRootState = rootReducer(
+  undefined,
+  createSessionAction({ id: generate() })
+);
 
 it("should thow comment not exist", () => {
-  const handle = updateCommentHandler({
-    entries: { comments: {}, blocks: {} },
-    session: { id: generate(), private: false },
-  });
+  const handle = updateCommentHandler(initialRootState);
 
   expect(() =>
     handle(
@@ -31,13 +35,13 @@ it("should submit comment", () => {
   });
 
   const rootState = {
+    ...initialRootState,
     entries: {
+      ...initialRootState.entries,
       comments: {
         [commentId]: commentUpdate,
       },
-      blocks: {},
     },
-    session: { id: sessionId, private: false },
   };
 
   const handle = updateCommentHandler(rootState);

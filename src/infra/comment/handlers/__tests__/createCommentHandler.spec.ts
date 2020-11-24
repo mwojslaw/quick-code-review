@@ -1,16 +1,17 @@
 import { createCommentHandler } from "@qcr/infra/comment/handlers";
-import { generate } from "@qcr/domain/Identity";
-import { createComment } from "@qcr/domain/Comment";
 import { createCommentAction } from "@qcr/infra/comment/actions";
+import { rootReducer } from "@qcr/infra/rootState";
+import {
+  createSession,
+  createBlock,
+  createComment,
+  generate,
+} from "@qcr/domain";
+
+const rootState = rootReducer(undefined, {});
 
 it("should throw when session missing", () => {
-  const handle = createCommentHandler({
-    session: null,
-    entries: {
-      blocks: {},
-      comments: {},
-    },
-  });
+  const handle = createCommentHandler(rootState);
 
   expect(() =>
     handle(
@@ -25,14 +26,8 @@ it("should throw when session missing", () => {
 
 it("should throw when block missing", () => {
   const handle = createCommentHandler({
-    session: {
-      id: generate(),
-      private: false,
-    },
-    entries: {
-      blocks: {},
-      comments: {},
-    },
+    ...rootState,
+    session: createSession({ id: generate() }),
   });
 
   expect(() =>
@@ -52,25 +47,18 @@ it("should throw when line taken by other comment", () => {
   const commentId = generate();
 
   const handle = createCommentHandler({
-    session: {
-      id: sessionId,
-      private: false,
-    },
+    session: createSession({ id: sessionId }),
     entries: {
       blocks: {
-        [blockId]: { content: "", id: blockId, sessionId },
+        [blockId]: createBlock({ id: blockId, content: "", sessionId }),
       },
       comments: {
-        [commentId]: {
-          id: commentId,
-          blockId,
-          isOpen: false,
+        [commentId]: createComment({
+          id: generate(),
           line: 10,
-          resolved: false,
+          blockId,
           sessionId,
-          submited: true,
-          message: "Something",
-        },
+        }),
       },
     },
   });
@@ -92,25 +80,22 @@ it("should add comment", () => {
   const commentId = generate();
 
   const rootState = {
-    session: {
-      id: sessionId,
-      private: false,
-    },
+    session: createSession({ id: sessionId }),
     entries: {
       blocks: {
-        [blockId]: { content: "", id: blockId, sessionId },
+        [blockId]: createBlock({
+          id: blockId,
+          sessionId,
+          content: "",
+        }),
       },
       comments: {
-        [commentId]: {
+        [commentId]: createComment({
           id: commentId,
           blockId,
-          isOpen: false,
           line: 1,
-          resolved: false,
           sessionId,
-          submited: true,
-          message: "Something",
-        },
+        }),
       },
     },
   };

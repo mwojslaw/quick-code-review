@@ -1,13 +1,17 @@
 import { submitCommentAction } from "@qcr/infra/comment/actions";
+import { createSessionAction } from "@qcr/infra/session/actions";
 import { submitCommentHandler } from "@qcr/infra/comment/handlers";
 import { submitComment, createComment } from "@qcr/domain/Comment";
 import { generate } from "@qcr/domain/Identity";
+import { rootReducer } from "@qcr/infra/rootState";
+
+const initialRootState = rootReducer(
+  undefined,
+  createSessionAction({ id: generate() })
+);
 
 it("should thow comment not exist", () => {
-  const handle = submitCommentHandler({
-    entries: { comments: {}, blocks: {} },
-    session: { id: generate(), private: false },
-  });
+  const handle = submitCommentHandler(initialRootState);
 
   expect(() =>
     handle(
@@ -16,6 +20,40 @@ it("should thow comment not exist", () => {
       })
     )
   ).toThrowError("Comment not found");
+});
+
+it("should thow if component already submited", () => {
+  const commentId = generate();
+  const sessionId = generate();
+
+  const commentToSubmit = submitComment(
+    createComment({
+      id: commentId,
+      blockId: generate(),
+      line: 10,
+      sessionId,
+    })
+  );
+
+  const rootState = {
+    ...initialRootState,
+    entries: {
+      ...initialRootState.entries,
+      comments: {
+        [commentId]: commentToSubmit,
+      },
+    },
+  };
+
+  const handle = submitCommentHandler(rootState);
+
+  expect(() =>
+    handle(
+      submitCommentAction({
+        id: commentId,
+      })
+    )
+  ).toThrowError("Comment already submited!");
 });
 
 it("should submit comment", () => {
@@ -30,13 +68,13 @@ it("should submit comment", () => {
   });
 
   const rootState = {
+    ...initialRootState,
     entries: {
+      ...initialRootState.entries,
       comments: {
         [commentId]: commentToSubmit,
       },
-      blocks: {},
     },
-    session: { id: sessionId, private: false },
   };
 
   const handle = submitCommentHandler(rootState);

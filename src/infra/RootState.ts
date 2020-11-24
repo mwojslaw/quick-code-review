@@ -10,7 +10,18 @@ export type RootState = {
   };
 };
 
-export const rootReducer = (rootState: RootState, action): RootState => ({
+const initialState: RootState = {
+  entries: {
+    blocks: {},
+    comments: {},
+  },
+  session: null,
+};
+
+export const rootReducer = (
+  rootState: RootState = initialState,
+  action
+): RootState => ({
   session: sessionReducer(rootState, action),
   entries: {
     comments: commentsReducer(rootState, action),
