@@ -1,3 +1,23 @@
 import { Comment, Id } from "@qcr/domain";
+import {
+  createCommentHandler,
+  updateCommentHandler,
+  submitCommentHandler,
+} from "@qcr/infra/comment/handlers";
+import { CommentActions } from "@qcr/infra/comment/actions";
+import { createReducerSlice } from "@qcr/infra/createReducerSlice";
 
-export type State = Record<Id, Comment>;
+export type CommentsState = Record<Id, Comment>;
+
+const handlersPerActionType = {
+  CREATE_COMMENT: createCommentHandler,
+  UPDATE_COMMENT: updateCommentHandler,
+  SUBMIT_COMMENT: submitCommentHandler,
+};
+
+const initialState = {};
+
+export const commentsReducer = createReducerSlice<
+  CommentActions,
+  CommentsState
+>(handlersPerActionType, initialState);

@@ -1,14 +1,15 @@
 import { createComment, isAtLine } from "@qcr/domain/Comment";
 import { CreateCommentAction } from "@qcr/infra/comment/actions";
-import { State } from "@qcr/infra/comment/state";
+import { CommentsState } from "@qcr/infra/comment/state";
 import { ActionHandler } from "@qcr/infra/ActionHandler";
 import { getBlockById } from "@qcr/infra/block/selectors";
 import { getComments } from "@qcr/infra/comment/selectors";
 import { getSession } from "@qcr/infra/session/selectors";
 
-export const createCommentHandler: ActionHandler<CreateCommentAction, State> = (
-  rootState
-) => (action) => {
+export const createCommentHandler: ActionHandler<
+  CreateCommentAction,
+  CommentsState
+> = (rootState) => (action) => {
   const { line, blockId, id } = action.payload;
 
   const session = getSession(rootState);

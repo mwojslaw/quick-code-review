@@ -1,3 +1,21 @@
 import { Block, Id } from "@qcr/domain";
+import {
+  createBlockHandler,
+  updateBlockContentHandler,
+} from "@qcr/infra/block/handlers";
+import { createReducerSlice } from "@qcr/infra/createReducerSlice";
+import { BlockActions } from "@qcr/infra/block/actions";
 
-export type State = Record<Id, Block>;
+export type BlocksState = Record<Id, Block>;
+
+const handlersPerActionType = {
+  CREATE_BLOCK: createBlockHandler,
+  UPDATE_BLOCK_CONTENT: updateBlockContentHandler,
+};
+
+const initialState = {};
+
+export const blocksReducer = createReducerSlice<BlockActions, BlocksState>(
+  handlersPerActionType,
+  initialState
+);

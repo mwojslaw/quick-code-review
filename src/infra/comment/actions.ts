@@ -35,3 +35,8 @@ export type UpdateCommentAction = {
   type: "UPDATE_COMMENT";
   payload: UpdateCommentActionPayload;
 };
+
+export type CommentActions =
+  | UpdateCommentAction
+  | SubmitCommentAction
+  | CreateCommentAction;

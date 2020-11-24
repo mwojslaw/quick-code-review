@@ -1,12 +1,13 @@
 import { updateComment } from "@qcr/domain/Comment";
-import { State } from "@qcr/infra/comment/State";
+import { CommentsState } from "@qcr/infra/comment/state";
 import { UpdateCommentAction } from "@qcr/infra/comment/actions";
 import { ActionHandler } from "@qcr/infra/ActionHandler";
 import { getComments } from "@qcr/infra/comment/selectors";
 
-export const updateCommentHandler: ActionHandler<UpdateCommentAction, State> = (
-  rootState
-) => (action) => {
+export const updateCommentHandler: ActionHandler<
+  UpdateCommentAction,
+  CommentsState
+> = (rootState) => (action) => {
   const comments = getComments(rootState);
 
   const comment = comments[action.payload.id];

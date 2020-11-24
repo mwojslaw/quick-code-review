@@ -1,11 +1,15 @@
-import { Session } from "@qcr/domain/Session";
+import { CreateSessionPayload } from "@qcr/domain/Session";
 
 export type CreateSessionAction = {
   type: "CREATE_SESSION";
-  payload: Session;
+  payload: CreateSessionPayload;
 };
 
-export const createSessionAction = (payload: Session): CreateSessionAction => ({
+export const createSessionAction = (
+  payload: CreateSessionPayload
+): CreateSessionAction => ({
   type: "CREATE_SESSION",
   payload,
 });
+
+export type SessionActions = CreateSessionAction;

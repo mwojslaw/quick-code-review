@@ -5,7 +5,7 @@ export type Session = {
   private: boolean;
 };
 
-type CreateSessionPayload = { id: Id };
+export type CreateSessionPayload = { id: Id };
 
 export const createSession = ({ id }: CreateSessionPayload): Session => ({
   id,

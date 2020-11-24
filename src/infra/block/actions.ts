@@ -10,3 +10,5 @@ export type UpdateBlockContentAction = {
   type: "UPDATE_BLOCK_CONTENT";
   payload: UpdateBlockContentPayload;
 };
+
+export type BlockActions = CreateBlockAction | UpdateBlockContentAction;

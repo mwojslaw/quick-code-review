@@ -1,15 +1,6 @@
-import {
-  State as CommentsState,
-  reducer as commentsReducer,
-} from "@qcr/infra/comment";
-import {
-  State as BlocksState,
-  reducer as blocksReducer,
-} from "@qcr/infra/block";
-import {
-  State as SessionState,
-  reducer as sessionReducer,
-} from "@qcr/infra/session";
+import { CommentsState, commentsReducer } from "@qcr/infra/comment/state";
+import { BlocksState, blocksReducer } from "@qcr/infra/block/state";
+import { SessionState, sessionReducer } from "@qcr/infra/session/state";
 
 export type RootState = {
   session: SessionState;

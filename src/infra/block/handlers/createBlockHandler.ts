@@ -1,13 +1,14 @@
 import { createBlock } from "@qcr/domain";
 import { CreateBlockAction } from "@qcr/infra/block/actions";
-import { State } from "@qcr/infra/block/state";
+import { BlocksState } from "@qcr/infra/block/state";
 import { ActionHandler } from "@qcr/infra/ActionHandler";
 import { getBlocks } from "@qcr/infra/block/selectors";
 import { getSession } from "@qcr/infra/session/selectors";
 
-export const createBlockHandler: ActionHandler<CreateBlockAction, State> = (
-  rootState
-) => (action) => {
+export const createBlockHandler: ActionHandler<
+  CreateBlockAction,
+  BlocksState
+> = (rootState) => (action) => {
   const { id, content } = action.payload;
 
   const session = getSession(rootState);
