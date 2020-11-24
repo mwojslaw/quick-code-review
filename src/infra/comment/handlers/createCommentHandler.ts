@@ -1,4 +1,4 @@
-import { createComment, isAtLine } from "@qcr/domain/Comment";
+import { createComment, isAtLine, isInBlock } from "@qcr/domain/Comment";
 import { CreateCommentAction } from "@qcr/infra/comment/actions";
 import { CommentsState } from "@qcr/infra/comment/state";
 import { ActionHandler } from "@qcr/infra/ActionHandler";
@@ -22,8 +22,8 @@ export const createCommentHandler: ActionHandler<
 
   const comments = getComments(rootState);
 
-  const allComments = Object.values(comments);
-  const commentAtLineAlreadyExists = allComments.find(isAtLine(line));
+  const commentsFromBlock = Object.values(comments).filter(isInBlock(blockId));
+  const commentAtLineAlreadyExists = commentsFromBlock.find(isAtLine(line));
 
   if (commentAtLineAlreadyExists)
     throw new Error("Comment at this line already exists");

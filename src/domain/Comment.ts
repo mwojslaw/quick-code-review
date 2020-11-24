@@ -59,3 +59,6 @@ export const resolveComment = (comment: Comment): Comment => ({
 
 export const isAtLine = (line: number) => (comment: Comment) =>
   comment.line === line;
+
+export const isInBlock = (blockId: Id) => (comment: Comment) =>
+  comment.blockId === blockId;

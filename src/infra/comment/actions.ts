@@ -1,13 +1,15 @@
 import { CreateCommentPayload } from "@qcr/domain/Comment";
 import { UpdateCommentPayload, Id } from "@qcr/domain";
 
+type CreateCommentActionPayload = Omit<CreateCommentPayload, "sessionId">;
+
 export type CreateCommentAction = {
   type: "CREATE_COMMENT";
-  payload: CreateCommentPayload;
+  payload: CreateCommentActionPayload;
 };
 
 export const createCommentAction = (
-  payload: CreateCommentPayload
+  payload: CreateCommentActionPayload
 ): CreateCommentAction => ({
   type: "CREATE_COMMENT",
   payload,
@@ -29,12 +31,19 @@ export const submitCommentAction = (
   payload,
 });
 
-export type UpdateCommentActionPayload = UpdateCommentPayload & { id: Id };
+export type UpdateCommentActionPayload = { id: Id; message: string };
 
 export type UpdateCommentAction = {
   type: "UPDATE_COMMENT";
   payload: UpdateCommentActionPayload;
 };
+
+export const updateCommentAction = (
+  payload: UpdateCommentActionPayload
+): UpdateCommentAction => ({
+  type: "UPDATE_COMMENT",
+  payload,
+});
 
 export type CommentActions =
   | UpdateCommentAction
